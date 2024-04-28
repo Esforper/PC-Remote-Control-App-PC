@@ -1,6 +1,11 @@
 import os
 import platform
 import time
+import socket
+
+# Sunucunun dinleyeceği IP adresi ve port numarası
+HOST = '192.168.0.19'  # Sadece yerel ağdaki bu IP adresini dinle
+PORT = 12345  # Kullanmak istediğiniz bir port numarası
 
 def bilgisayari_beklet_moduna_al():
     if platform.system() == "Windows":
@@ -26,7 +31,32 @@ def komutu_degerlendir(komut):
         print("Bilinmeyen komut:", komut)
 
 # Örnek bir komut alalım (bu kısmı gerçek komut alımı ile değiştirin)
-komut = input("Komutu girin: ")
+# Soket oluştur
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+    # Soketi belirtilen IP adresine ve port numarasına bağla
+    s.bind((HOST, PORT))
+    # Bağlantıları dinle
+    s.listen()
+    print('Sunucu dinleniyor...')
+    
+    # Bağlantı kabul et
+    conn, addr = s.accept()
+    with conn:
+        print('Bağlantı alındı:', addr)
+        komut = input("Komutu girin: ")
+        komutu_degerlendir(komut)
+"""
+        while True:
+            # İstemciden gelen veriyi al
+            data = conn.recv(1024)
+            if not data:
+                break
+            # Gelen veriyi ekrana yaz ve geri gönder
+            print('Alınan veri:', data.decode())
+            conn.sendall(data)
+"""
+
+#komut = input("Komutu girin: ")
 
 # Komutu değerlendir
-komutu_degerlendir(komut)
+#komutu_degerlendir(komut)
