@@ -1,0 +1,32 @@
+import os
+import platform
+import time
+
+def bilgisayari_beklet_moduna_al():
+    if platform.system() == "Windows":
+        # Windows için hazırda beklet modu komutu
+        os.system("rundll32.exe user32.dll,LockWorkStation")
+    else:
+        print("Bu işletim sistemi desteklenmiyor.")
+
+def bilgisayari_uyandir():
+    if platform.system() == "Windows":
+        # Windows için uyandırma komutu
+        os.system("rundll32.exe powrprof.dll,SetSuspendState 0,1,0")
+    else:
+        print("Bu işletim sistemi desteklenmiyor.")
+
+# Örnek olarak belirli bir komut geldiğinde bilgisayarı uyku moduna al
+def komutu_degerlendir(komut):
+    if komut == "bilgisayarı_beklet_moduna_al":
+        bilgisayari_beklet_moduna_al()
+    elif komut == "bilgisayari_uyku_moduna_al":
+        bilgisayari_uyandir()
+    else:
+        print("Bilinmeyen komut:", komut)
+
+# Örnek bir komut alalım (bu kısmı gerçek komut alımı ile değiştirin)
+komut = input("Komutu girin: ")
+
+# Komutu değerlendir
+komutu_degerlendir(komut)
